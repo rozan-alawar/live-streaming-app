@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:streamer/agora_vedio_call_screen.dart';
+import 'package:streamer/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const VedioCallScreen(),
+      home: const HomePage(),
+      // home: const VedioCallScreen(),
     );
   }
 }
