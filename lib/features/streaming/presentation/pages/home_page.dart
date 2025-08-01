@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:streamer/pages/live_page.dart';
+import 'package:streamer/features/streaming/presentation/pages/live_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,8 +9,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _channelName = TextEditingController();
-  final _userName = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

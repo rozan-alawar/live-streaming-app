@@ -37,8 +37,9 @@ dependencies:
   
   #Logic
   zego_uikit_prebuilt_live_streaming: ^3.14.2
-  # agora_rtm: ^2.2.2
+  equatable: ^2.0.5
   flutter_riverpod: ^2.6.1
+  
   #Storage
   shared_preferences: ^2.5.3
   #UI
@@ -46,6 +47,9 @@ dependencies:
   modal_bottom_sheet: ^3.0.0
   circular_menu: ^4.0.0
 
+  firebase_core: ^4.0.0
+  firebase_auth: ^6.0.0
+  cloud_firestore: ^6.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
