@@ -124,9 +124,8 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                 const SizedBox(height: 40),
                 CustomTextField(
                   hint: AppStrings.email,
-                  prefixIcon: Icons.email_outlined,
+                  prefixIcon: const Icon(Icons.email_outlined),
                   controller: _emailController,
-                  isEmail: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return AppStrings.pleaseEnterEmail;
@@ -140,9 +139,9 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                 const SizedBox(height: 16),
                 CustomTextField(
                   hint: AppStrings.password,
-                  prefixIcon: Icons.lock_outline,
+                  prefixIcon: const Icon(Icons.lock_outline),
                   controller: _passwordController,
-                  isPassword: true,
+                  obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return AppStrings.pleaseEnterPassword;

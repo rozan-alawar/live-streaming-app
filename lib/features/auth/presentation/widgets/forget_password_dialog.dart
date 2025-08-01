@@ -91,9 +91,8 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
           const SizedBox(height: 16),
           CustomTextField(
             hint: AppStrings.email,
-            prefixIcon: Icons.email_outlined,
+            prefixIcon: const Icon(Icons.email_outlined),
             controller: _emailController,
-            isEmail: true,
           ),
         ],
       ),
