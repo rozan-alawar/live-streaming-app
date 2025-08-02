@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:streamer/core/router/app_routes.dart';
+import 'package:streamer/core/router/navigation_service.dart';
 
 import '../../data/models/auth_state_model.dart';
 import '../../domain/repositories/auth_repository_interface.dart';
@@ -51,6 +55,8 @@ class AuthController extends StateNotifier<AuthStateModel> {
 
       if (user != null) {
         state = AuthStateModel(state: AuthState.authenticated, user: user);
+        NavigationService.pushReplacementNamed(RouteNames.home);
+        log('User signed in: ${user.email}');
       } else {
         state = const AuthStateModel(
           state: AuthState.error,

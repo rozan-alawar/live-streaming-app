@@ -31,7 +31,7 @@ class RouteNames {
   static const String termsOfService = '/terms-of-service';
   static const String privacyPolicy = '/privacy-policy';
   static const String help = '/help';
-  static const String contact = '/contact';
+  static const String notification = '/notification';
 
   // Error routes
   static const String notFound = '/not-found';

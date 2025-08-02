@@ -22,21 +22,25 @@ class SplashController extends Notifier<void> {
   void init(TickerProvider vsync, BuildContext context) {
     this.context = context;
 
+    // Logo animation controller
     logoController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1200),
       vsync: vsync,
     );
 
+    // Text animation controller
     textController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: vsync,
+    );
+
+    // Background animation controller (not needed for white background but keeping for consistency)
+    backgroundController = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: vsync,
     );
 
-    backgroundController = AnimationController(
-      duration: const Duration(milliseconds: 2000),
-      vsync: vsync,
-    );
-
+    // Logo animations - bouncy entrance
     logoScaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: logoController, curve: Curves.elasticOut),
     );
@@ -48,15 +52,17 @@ class SplashController extends Notifier<void> {
       ),
     );
 
+    // Text animations - smooth slide up
     textOpacityAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
-    ).animate(CurvedAnimation(parent: textController, curve: Curves.easeIn));
+    ).animate(CurvedAnimation(parent: textController, curve: Curves.easeInOut));
 
-    textSlideAnimation = Tween<double>(begin: 30.0, end: 0.0).animate(
+    textSlideAnimation = Tween<double>(begin: 20.0, end: 0.0).animate(
       CurvedAnimation(parent: textController, curve: Curves.easeOutCubic),
     );
 
+    // Background animation (keeping white)
     backgroundColorAnimation = ColorTween(
       begin: Colors.white,
       end: Colors.white,
@@ -66,13 +72,18 @@ class SplashController extends Notifier<void> {
   }
 
   Future<void> startAnimations() async {
+    // Start logo animation first
     logoController.forward();
-    await Future.delayed(const Duration(milliseconds: 800));
-    textController.forward();
-    await Future.delayed(const Duration(milliseconds: 500));
-    backgroundController.forward();
-    await Future.delayed(const Duration(milliseconds: 1200));
 
+    // Wait a bit then start text animation
+    await Future.delayed(const Duration(milliseconds: 600));
+    textController.forward();
+
+    // Start background animation
+    backgroundController.forward();
+
+    // Wait for animations to complete, then navigate
+    await Future.delayed(const Duration(milliseconds: 2500));
     _navigateToNext();
   }
 

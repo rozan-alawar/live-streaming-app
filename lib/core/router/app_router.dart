@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:streamer/core/router/app_routes.dart';
 import 'package:streamer/features/splash/presentation/pages/splash_screen.dart';
+import 'package:streamer/features/streaming/presentation/controllers/home_state.dart';
 import 'package:streamer/features/streaming/presentation/pages/home_page.dart';
+import 'package:streamer/features/streaming/presentation/pages/notifications_screen.dart';
 
 import '../../features/auth/presentation/pages/auth_wrapper.dart';
 import '../../features/auth/presentation/pages/sign_in_page.dart';
@@ -23,6 +25,13 @@ class AppRouter {
 
       case RouteNames.home:
         return _buildRoute(const HomePage(), settings);
+      case RouteNames.notification:
+        final args = settings.arguments as Map<String, dynamic>?;
+
+        return _buildRoute(
+          NotificationsScreen(state: args?['state'] as HomeStateSuccess),
+          settings,
+        );
 
       // case RouteNames.liveStreaming:
       //   final args = settings.arguments as Map<String, dynamic>?;

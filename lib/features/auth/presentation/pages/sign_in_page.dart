@@ -37,7 +37,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
           .read(authControllerProvider.notifier)
           .signInWithEmailAndPassword(
             email: _emailController.text.trim(),
-            password: _passwordController.text,
+            password: _passwordController.text.trim(),
           );
     }
   }
@@ -96,135 +96,190 @@ class _SignInPageState extends ConsumerState<SignInPage> {
 
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Form(
             key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20),
-                Image.asset("assets/streamer.png"),
-                const SizedBox(height: 32),
-                const CustomText(
-                  AppStrings.loginToYourAccount,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                ),
-                const SizedBox(height: 40),
-                CustomTextField(
-                  hint: AppStrings.email,
-                  prefixIcon: const Icon(Icons.email_outlined),
-                  controller: _emailController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return AppStrings.pleaseEnterEmail;
-                    }
-                    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                      return AppStrings.pleaseEnterValidEmail;
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                CustomTextField(
-                  hint: AppStrings.password,
-                  prefixIcon: const Icon(Icons.lock_outline),
-                  controller: _passwordController,
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return AppStrings.pleaseEnterPassword;
-                    }
-                    if (value.length < 6) {
-                      return AppStrings.passwordTooShort;
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                Row(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight:
+                    MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).padding.top -
+                    kToolbarHeight,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Checkbox(
-                      value: _rememberMe,
-                      onChanged: (value) {
-                        setState(() {
-                          _rememberMe = value ?? false;
-                        });
-                      },
-                      activeColor: AppColors.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    const CustomText(
-                      AppStrings.rememberMe,
-                      color: AppColors.textPrimary,
-                      fontSize: 14,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                CustomButton(
-                  text: AppStrings.signIn,
-                  onPressed: _signIn,
-                  isLoading: authState.isLoading,
-                ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: _showForgotPasswordDialog,
-                  child: const CustomText(
-                    AppStrings.forgotPassword,
-                    color: AppColors.primary,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const Spacer(),
+                    const SizedBox(height: 20),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const CustomText(
-                      AppStrings.dontHaveAccount,
-                      color: AppColors.textSecondary,
-                      fontSize: 14,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignUpPage(),
-                          ),
-                        );
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    SizedBox(
+                      height:
+                          MediaQuery.of(context).viewInsets.bottom > 0
+                              ? 60
+                              : 80,
+                      child: Image.asset(
+                        "assets/streamer.png",
+                        fit: BoxFit.contain,
                       ),
+                    ),
+
+                    SizedBox(
+                      height:
+                          MediaQuery.of(context).viewInsets.bottom > 0
+                              ? 16
+                              : 32,
+                    ),
+
+                    const CustomText(
+                      AppStrings.loginToYourAccount,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                      textAlign: TextAlign.center,
+                    ),
+
+                    SizedBox(
+                      height:
+                          MediaQuery.of(context).viewInsets.bottom > 0
+                              ? 24
+                              : 40,
+                    ),
+
+                    // Form fields
+                    CustomTextField(
+                      hint: AppStrings.email,
+                      prefixIcon: const Icon(Icons.email_outlined),
+                      controller: _emailController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppStrings.pleaseEnterEmail;
+                        }
+                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                          return AppStrings.pleaseEnterValidEmail;
+                        }
+                        return null;
+                      },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    CustomTextField(
+                      hint: AppStrings.password,
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      controller: _passwordController,
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppStrings.pleaseEnterPassword;
+                        }
+                        if (value.length < 6) {
+                          return AppStrings.passwordTooShort;
+                        }
+                        return null;
+                      },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Remember me checkbox
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _rememberMe,
+                          onChanged: (value) {
+                            setState(() {
+                              _rememberMe = value ?? false;
+                            });
+                          },
+                          activeColor: AppColors.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        const CustomText(
+                          AppStrings.rememberMe,
+                          color: AppColors.textPrimary,
+                          fontSize: 14,
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Sign in button
+                    CustomButton(
+                      text: AppStrings.signIn,
+                      onPressed: _signIn,
+                      isLoading: authState.isLoading,
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Forgot password
+                    TextButton(
+                      onPressed: _showForgotPasswordDialog,
                       child: const CustomText(
-                        AppStrings.signUp,
+                        AppStrings.forgotPassword,
                         color: AppColors.primary,
                         fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+
+                    // Flexible spacer that adjusts to keyboard
+                    Expanded(
+                      child: Container(
+                        constraints: const BoxConstraints(minHeight: 20),
+                      ),
+                    ),
+
+                    // Bottom section - Sign up link
+                    Padding(
+                      padding: EdgeInsets.only(
+                        bottom:
+                            MediaQuery.of(context).viewInsets.bottom > 0
+                                ? 16
+                                : 24,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const CustomText(
+                            AppStrings.dontHaveAccount,
+                            color: AppColors.textSecondary,
+                            fontSize: 14,
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SignUpPage(),
+                                ),
+                              );
+                            },
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: const CustomText(
+                              AppStrings.signUp,
+                              color: AppColors.primary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
-              ],
+              ),
             ),
           ),
         ),
